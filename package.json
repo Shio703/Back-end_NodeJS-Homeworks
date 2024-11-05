@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "this is my first homework which i'm submitting late and sorry about this i had some obstacles on the weekend and i couldn't make it but anyways it's better to do than to left it undone i think:)",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +15,8 @@
     "NH_Back-end_NodeJS"
   ],
   "author": "Shio Zhamurashvili (Shio703)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ascii-art": "^1.5.1"
+  }
 }
