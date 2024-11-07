@@ -57,3 +57,8 @@ readableStream.on("data", (data) => {
   console.log("Writing into the file...");
   writableStream.write(data);
 });
+
+// Reading data from buffer
+const buffer = new Buffer.from(data);
+console.log(buffer.toString());
+console.log(buffer);
