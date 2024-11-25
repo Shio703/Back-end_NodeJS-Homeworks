@@ -2,7 +2,7 @@ import { exec } from "node:child_process";
 import { createWriteStream } from "node:fs";
 import { exit } from "node:process";
 
-const resultarr = [];
+let resultarr = null;
 const date = new Date().toLocaleDateString();
 const time = new Date().toLocaleTimeString();
 const fileName = process.argv[2];
@@ -19,15 +19,15 @@ exec(
 
     error
       ? console.log(`Error Occured: ${error}`)
-      : resultarr.push(cleanedOutput);
+      : (resultarr = cleanedOutput);
     //  WARNING! if you are a good developer please just close eyes and scroll up
     // there is a true example how to hardcode objects
     const resultObj = {
-      os: resultarr[0][0],
-      userName: resultarr[0][1],
-      winDirectory: resultarr[0][2],
-      Number_of_Processors: resultarr[0][3],
-      computerName: resultarr[0][4],
+      os: resultarr[0],
+      userName: resultarr[1],
+      winDirectory: resultarr[2],
+      Number_of_Processors: resultarr[3],
+      computerName: resultarr[4],
       date,
       time,
     };
