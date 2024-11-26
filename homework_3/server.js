@@ -11,6 +11,12 @@ const getTime = () => {
 
       !unBuffed ? reject("Couldn't Get Time!") : resolve(unBuffed);
     });
+    time.on("error", (error) => {
+      reject(error);
+    });
+    time.stderr.on("data", (data) => {
+      console.log("Error During stdout:", data);
+    });
   });
   return timePromise;
 };
@@ -21,15 +27,16 @@ const getFiles = () => {
 
     let fileList = "";
     ls.stdout.on("data", (data) => {
-      for (let i = 0; i < data.length; i++) {
-        fileList += data.toString();
-      }
-      // console.log("FileList Output:", fileList);
+      fileList += data.toString();
     });
-
-    ls.on("close", resolve(fileList));
+    ls.on("close", () => {
+      resolve(fileList);
+    });
     ls.on("error", (error) => {
-      console.log(error);
+      reject(error);
+      ls.stderr.on("data", (data) => {
+        console.log("Error During stdout:", data);
+      });
     });
   });
   return filespromise;
@@ -62,8 +69,9 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { "content-type": "text/plain" });
       res.end("List: " + fileList);
       break;
+
     default:
-      res.writeHead(200, { "content-type": "text/plain" });
+      res.writeHead(404, { "content-type": "text/plain" });
       res.end("404 Page Not Found!");
       break;
   }
