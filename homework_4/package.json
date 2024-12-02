@@ -1,0 +1,22 @@
+{
+  "name": "expressh",
+  "version": "0.0.1",
+  "description": "express.js homework project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "js",
+    "nodejs",
+    "backend",
+    "homework"
+  ],
+  "author": "Shio703",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
