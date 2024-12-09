@@ -1,14 +1,23 @@
 import express from "express";
 import { spawn } from "node:child_process";
 import { createWriteStream, readFile, existsSync } from "node:fs";
+import multer from "multer";
 
 const myApp = express();
 const port = 3000;
-
 const outputName = "output.json";
-myApp.listen(port, () => {
-  console.log(`express app listening on ${port}`);
+
+// configuring multer middleware and it's storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cd) {
+    cd(null, "./uploads");
+  },
+  filename: function (req, file, cd) {
+    // to prevent overwritting due to name duplication adding current date to the file name
+    cd(null, `${Date.now()}-${file.originalname}`);
+  },
 });
+const upload = multer({ storage: storage });
 
 const getFiles = () => {
   const result = createWriteStream(outputName);
@@ -70,4 +79,16 @@ myApp.get("/files", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+});
+// in order to upload files on this endpoint open "index.html" file
+myApp.post("/uploads", upload.single("upload_form"), (req, res) => {
+  console.log(`Request on: ${req.url}`);
+  req.file
+    ? res.send("File Uploaded Successfully!")
+    : res.send("Provide File!");
+  console.log(req.file);
+});
+
+myApp.listen(port, () => {
+  console.log(`express app listening on ${port}`);
 });
