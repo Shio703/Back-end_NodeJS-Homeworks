@@ -1,0 +1,27 @@
+{
+  "name": "final_project",
+  "version": "0.0.1",
+  "description": "The final Project from NH-Backend Course",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Final",
+    "NodeJS",
+    "Backend",
+    "Sharing",
+    "Service",
+    "Express.js"
+  ],
+  "author": "Shio703 (Shio Zhamurashvili)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
