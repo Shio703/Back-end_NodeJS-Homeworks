@@ -1,6 +1,6 @@
 {
   "name": "final_project",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The final Project from NH-Backend Course",
   "main": "server.js",
   "scripts": {

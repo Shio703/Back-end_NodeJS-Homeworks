@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { register, listData } = require("../utils/userUtils");
+const { register, validator } = require("../utils/userUtils");
+const { listData } = require("../utils/dataUtils");
 
 // User management endpoints:
 router.post("/user/create", (req, res, next) => {
@@ -11,7 +12,10 @@ router.post("/user/create", (req, res, next) => {
   res.json({ message: regResult });
 });
 router.get("/user/validate", (req, res, next) => {
-  res.send("TODO: User Validation");
+  const validatorResult = validator(req.body.username);
+  validatorResult.code === 404
+    ? res.status(404).json(validatorResult)
+    : res.json(validatorResult);
 });
 router.get("/user/login", (req, res, next) => {
   res.send("TODO: User login");
@@ -26,7 +30,9 @@ router.get("/user/space", (req, res) => {
       res.json({ data });
     })
     .catch((err) => {
-      res.json({ error: err });
+      err.code === 404
+        ? res.status(404).json(err)
+        : res.status(500).json({ error: err });
     });
 });
 router.put("/user/space/create", (req, res) => {});
