@@ -11,7 +11,7 @@ router.post("/user/create", (req, res, next) => {
 
   res.json({ message: regResult });
 });
-router.get("/user/validate", (req, res, next) => {
+router.post("/user/validate", (req, res, next) => {
   const validatorResult = validator(req.body.username);
   validatorResult.code === 404
     ? res.status(404).json(validatorResult)
@@ -22,7 +22,7 @@ router.get("/user/login", (req, res, next) => {
 });
 
 // Folder management endpoints:
-router.get("/user/space", (req, res) => {
+router.post("/user/space", (req, res) => {
   const username = req.body.username;
   // function needs username as a parameter
   listData(username)

@@ -1,6 +1,5 @@
 const fs = require("node:fs");
 const path = require("node:path");
-const { spawn } = require("node:child_process");
 
 // User's object blueprint
 class User {
@@ -74,6 +73,9 @@ const register = (username, password) => {
 
 // Function for user validation:
 const validator = (username) => {
+  if (!username || username === "") {
+    return { message: "Provide Username" };
+  }
   try {
     const userDirPath = path.join(__dirname, "..", `./usersData/${username}`);
     if (fs.existsSync(userDirPath)) {
@@ -85,7 +87,6 @@ const validator = (username) => {
     return error;
   }
 };
-
 
 module.exports = {
   register,
