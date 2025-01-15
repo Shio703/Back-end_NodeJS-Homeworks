@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
-
+const jwt = require("jsonwebtoken");
 // User's object blueprint
 class User {
   constructor(username, password) {
@@ -8,7 +8,7 @@ class User {
     this.password = password;
   }
 }
-
+let user;
 //Registration function
 const register = (username, password) => {
   const maliciousArray = [
@@ -39,7 +39,7 @@ const register = (username, password) => {
   }
   // if all abovementioned checks passed then execute down here:
 
-  const user = new User(username, password);
+  user = new User(username, password);
   try {
     // user data dir path
     const userDirPath = path.join(
@@ -71,6 +71,24 @@ const register = (username, password) => {
   }
 };
 
+const login = async (user) => {
+  try {
+    const userToken = await new Promise((resolve, reject) => {
+      jwt.sign({ user }, "key703", { expiresIn: "5m" }, (err, token) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(token);
+        }
+      });
+    });
+    return { userToken };
+  } catch (error) {
+    console.log(`Error in login() function: ${error}`);
+    return { userToken: "" };
+  }
+};
+
 // Function for user validation:
 const validator = (username) => {
   if (!username || username === "") {
@@ -91,4 +109,5 @@ const validator = (username) => {
 module.exports = {
   register,
   validator,
+  login,
 };

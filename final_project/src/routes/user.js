@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { register, validator } = require("../utils/userUtils");
+const { register, validator, login } = require("../utils/userUtils");
 const { listData } = require("../utils/dataUtils");
 
 // User management endpoints:
@@ -17,8 +17,16 @@ router.post("/user/validate", (req, res, next) => {
     ? res.status(404).json(validatorResult)
     : res.json(validatorResult);
 });
-router.get("/user/login", (req, res, next) => {
-  res.send("TODO: User login");
+
+router.post("/user/login", (req, res, next) => {
+  const { username, password } = req.body;
+  login(username)
+    .then((token) => {
+      res.json(token);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
 });
 
 // Folder management endpoints:
