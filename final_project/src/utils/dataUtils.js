@@ -73,6 +73,8 @@ const isEmpty = (path) => {
   } catch (err) {
     if (err.code === "ENOENT") {
       return "Folder doesn't exists!";
+    } else if (err.code === "ENOTDIR") {
+      return "Target with provided name isn't folder!";
     } else {
       console.log("Error in isEmpty()", err);
     }
