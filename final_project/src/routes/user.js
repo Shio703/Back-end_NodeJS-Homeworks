@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { register, validator, login } = require("../utils/userUtils");
-const { listData } = require("../utils/dataUtils");
+const { listData, createFolder, deleteFolder } = require("../utils/dataUtils");
 
 // User management endpoints:
 router.post("/user/create", (req, res, next) => {
@@ -43,7 +43,27 @@ router.post("/user/space", (req, res) => {
         : res.status(500).json({ error: err });
     });
 });
-router.put("/user/space/create", (req, res) => {});
-router.delete("/user/space/file", (req, res) => {});
+
+router.put("/user/space/create", (req, res) => {
+  createFolder(req.body.username, req.body.foldername)
+    .then((data) => {
+      res.json({ message: data });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: err });
+    });
+});
+
+router.delete("/user/space/file", (req, res) => {
+  deleteFolder(req.body.username, req.body.foldername)
+    .then((data) => {
+      res.json({ message: data });
+    })
+    .catch((err) => {
+      err.code === 403
+        ? res.status(403).json(err)
+        : res.status(500).json({ message: err });
+    });
+});
 
 module.exports = router;
