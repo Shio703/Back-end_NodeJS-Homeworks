@@ -65,7 +65,7 @@ const register = (username, password) => {
     return `Welcome ${user.username} you registered successfully;)`;
   } catch (error) {
     if (error.code === "EEXIST") {
-      return "User already exists!";
+      return { message: "User already exists!", code: 403 };
     } else {
       console.log(`Error in register() function: ${error}`);
       return "There is a problem you couldn't registered:(";

@@ -13,8 +13,9 @@ router.post("/user/create", (req, res, next) => {
   console.log("user req: ", req.body);
   const { username, password } = req.body;
   const regResult = register(username, password);
-
-  res.json({ message: regResult });
+  regResult.code === 403
+    ? res.status(403).json(regResult)
+    : res.json({ message: regResult });
 });
 router.post("/user/validate", (req, res, next) => {
   const validatorResult = validator(req.body.username);
