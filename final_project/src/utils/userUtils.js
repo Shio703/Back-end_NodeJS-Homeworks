@@ -1,6 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 // User's object blueprint
 class User {
   constructor(username, password) {
@@ -70,22 +72,69 @@ const register = (username, password) => {
     }
   }
 };
-
-const login = async (user) => {
+// for checking user's authorization info
+const getUser = (username) => {
   try {
-    const userToken = await new Promise((resolve, reject) => {
-      jwt.sign({ user }, "key703", { expiresIn: "5m" }, (err, token) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(token);
-        }
-      });
-    });
-    return { userToken };
+    const usersJson = path.join(
+      __dirname,
+      "..",
+      `./usersData/${username}/${username}.json`
+    );
+
+    const json = fs.readFileSync(usersJson, { encoding: "utf-8" });
+    const parsed = JSON.parse(json);
+    return parsed;
   } catch (error) {
-    console.log(`Error in login() function: ${error}`);
-    return { userToken: "" };
+    console.log(error);
+  }
+};
+
+// Login function
+const login = async (username, password) => {
+  // console.log(username, password);
+  const user = getUser(username);
+
+  if (user.username === username && user.password === password) {
+    try {
+      const userToken = await new Promise((resolve, reject) => {
+        // Warning! you must change jwt secret key!!!
+        jwt.sign(
+          { username },
+          process.env.JWT_SECRET,
+          { expiresIn: "5m" },
+          (err, token) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(token);
+            }
+          }
+        );
+      });
+      return { userToken };
+    } catch (error) {
+      console.log(`Error in login() function: ${error}`);
+      return { message: "error during creation of access token" };
+    }
+  } else {
+    return { message: "Username or Password is incorrect!", code: 401 };
+  }
+};
+
+//token verifyier middleware
+const verifyToken = (req, res, next) => {
+  const accessToken = req.cookies["access-token"];
+
+  if (!accessToken) {
+    res.status(401).json({ message: "you are not authenticated!" });
+  } else {
+    try {
+      const isValid = jwt.verify(accessToken, process.env.JWT_SECRET);
+      isValid ? req.authenticated : "";
+      return next();
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   }
 };
 
@@ -110,4 +159,5 @@ module.exports = {
   register,
   validator,
   login,
+  verifyToken,
 };

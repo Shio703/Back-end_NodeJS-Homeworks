@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { register, validator, login } = require("../utils/userUtils");
+const {
+  register,
+  validator,
+  login,
+  verifyToken,
+} = require("../utils/userUtils");
 const { listData, createFolder, deleteFolder } = require("../utils/dataUtils");
 
 // User management endpoints:
@@ -20,9 +25,17 @@ router.post("/user/validate", (req, res, next) => {
 
 router.post("/user/login", (req, res, next) => {
   const { username, password } = req.body;
-  login(username)
+  login(username, password)
     .then((token) => {
-      res.json(token);
+      if (token.code === 401) {
+        res.status(401).json({ message: token.message });
+      } else {
+        res.cookie("access-token", token.userToken, {
+          maxAge: 60 * 5000,
+          secure: true,
+        });
+        res.json({ message: "logged in" });
+      }
     })
     .catch((err) => {
       res.status(500).json({ error: err });
@@ -30,7 +43,7 @@ router.post("/user/login", (req, res, next) => {
 });
 
 // Folder management endpoints:
-router.post("/user/space", (req, res) => {
+router.post("/user/space", verifyToken, (req, res) => {
   const username = req.body.username;
   // function needs username as a parameter
   listData(username)
@@ -44,7 +57,7 @@ router.post("/user/space", (req, res) => {
     });
 });
 
-router.put("/user/space/create", (req, res) => {
+router.put("/user/space/create", verifyToken, (req, res) => {
   createFolder(req.body.username, req.body.foldername)
     .then((data) => {
       res.json({ message: data });
@@ -54,7 +67,7 @@ router.put("/user/space/create", (req, res) => {
     });
 });
 
-router.delete("/user/space/file", (req, res) => {
+router.delete("/user/space/file", verifyToken, (req, res) => {
   deleteFolder(req.body.username, req.body.foldername)
     .then((data) => {
       res.json({ message: data });

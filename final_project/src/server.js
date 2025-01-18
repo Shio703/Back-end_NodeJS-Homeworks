@@ -5,10 +5,14 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const router = express.Router();
+const cookieParser = require("cookie-parser");
+
 // using json middleware
 app.use(express.json());
 // for cross origin policy (CORS)
 app.use(cors());
+// cookie-parser middleware to store cookies on client side
+app.use(cookieParser());
 // importing routes
 const userRoutes = require("./routes/user");
 
