@@ -46,7 +46,7 @@ router.delete("/user/space/file", verifyToken, (req, res) => {
 });
 
 // for uploading files
-router.post("/user/space/upload", upload.single("file"), (req, res) => {
+router.post("/user/space/upload", upload.any(), (req, res) => {
   res.json({ message: `file stored successfully:) ${req.body.username}` });
 });
 

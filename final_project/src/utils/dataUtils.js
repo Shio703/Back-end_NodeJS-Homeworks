@@ -15,7 +15,8 @@ const storage = multer.diskStorage({
       return "error storage path not found!";
     }
     console.log("File Location:", storagePath.slice(54));
-
+    // username is undefined
+    console.log(req.body.username);
     cb(null, storagePath);
   },
   filename: function (req, file, cb) {
@@ -29,6 +30,8 @@ const storage = multer.diskStorage({
       uploadDate: new Date(),
       description: req.body.description,
     };
+    // this is not even logging
+    console.log("uploaded by:", customMetaData.uploadedBy);
     file.customMetaData = customMetaData;
     cb(null, customMetaData);
   },
