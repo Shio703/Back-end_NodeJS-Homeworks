@@ -1,7 +1,6 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 // User's object blueprint
 class User {
@@ -101,7 +100,7 @@ const login = async (username, password) => {
         jwt.sign(
           { username },
           process.env.JWT_SECRET,
-          { expiresIn: "5m" },
+          { expiresIn: process.env.JWT_TOKEN_EXPIRES_IN },
           (err, token) => {
             if (err) {
               reject(err);

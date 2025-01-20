@@ -6,6 +6,7 @@ const cors = require("cors");
 const app = express();
 const router = express.Router();
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 
 // using json middleware
 app.use(express.json());
@@ -15,8 +16,9 @@ app.use(cors());
 app.use(cookieParser());
 // importing routes
 const userRoutes = require("./routes/user");
-
+const dataRoutes = require("./routes/data");
 app.use("/api/v1", userRoutes);
+app.use("/api/v1", dataRoutes);
 
 router.get("/", (req, res, next) => {
   res.send("hello express");
