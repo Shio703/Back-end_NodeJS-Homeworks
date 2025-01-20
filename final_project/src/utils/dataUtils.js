@@ -3,16 +3,18 @@ const path = require("node:path");
 const { spawn } = require("node:child_process");
 const multer = require("multer");
 
-const uploadFunc = () => {};
-
-const storagePath = path.join(__dirname, "/", `usersData/${"shio703"}/data`);
-
+// multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    const storagePath = path.join(
+      __dirname,
+      "../",
+      `usersData/${"shio703"}/data`
+    );
     if (!storagePath) {
-      return "errrrrrrrroooorrrrrrrrjdfhs";
+      return "error storage path not found!";
     }
-    console.log("მყპატჰ", storagePath);
+    console.log("File Location:", storagePath.slice(54));
 
     cb(null, storagePath);
   },

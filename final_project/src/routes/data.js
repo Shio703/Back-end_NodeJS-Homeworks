@@ -47,10 +47,7 @@ router.delete("/user/space/file", verifyToken, (req, res) => {
 
 // for uploading files
 router.post("/user/space/upload", upload.single("file"), (req, res) => {
-  console.log(req.body.username);
-  console.log(req.body.authenticated);
-
-  res.json({ message: "it works:)" });
+  res.json({ message: `file stored successfully:) ${req.body.username}` });
 });
 
 module.exports = router;
