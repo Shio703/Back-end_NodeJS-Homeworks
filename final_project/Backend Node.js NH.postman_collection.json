@@ -1,0 +1,284 @@
+{
+	"info": {
+		"_postman_id": "ddac9c3c-4228-44f7-950e-d5bdddcc9e71",
+		"name": "Backend Node.js NH",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36579478"
+	},
+	"item": [
+		{
+			"name": "User Endpoints",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"shio703\",\r\n    \"password\": \"feria703\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"create"
+							]
+						},
+						"description": "### Create User\n\nThe `Create User` endpoint allows you to create a new user.\n\n#### Request\n\n- Method: POST\n    \n- Endpoint: `http://localhost:3000/api/v1/user/create`\n    \n- Body:\n    \n    - `username` (text, required): The username of the new user.\n        \n    - `password` (text, required): The password for the new user.\n        \n\n#### Response\n\nThe response for this request can be described using the following JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"message\": {\n      \"type\": \"string\"\n    },\n    \"code\": {\n      \"type\": \"integer\"\n    }\n  }\n}\n\n ```\n\n- Status: 403\n    \n- Content-Type: application/json\n    \n\n#### Related Responses\n\nOther endpoints of this API returned a similar response with a status code of 200:\n\n``` json\n{\n  \"message\": {\n    \"type\": \"string\"\n  }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"feria703\",\r\n    \"password\": \"shio703\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"login"
+							]
+						},
+						"description": "### User Login\n\nThis endpoint allows users to log in by providing their username and password.\n\n#### Request Body\n\n- `username` (string): The username of the user.\n    \n- `password` (string): The password of the user.\n    \n\n#### Response\n\n- `message` (string): A message indicating the result of the login attempt.\n    \n\nExample:\n\n``` json\n{\n    \"message\": \"logged in\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Validation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"feria703\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/validate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"validate"
+							]
+						},
+						"description": "### User Validate\n\nThis API endpoint is used to validate a user.\n\n#### Request Body\n\n- `username` (string, required): The username to be validated.\n    \n\n#### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"message\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\n- `message` (string): A message indicating the result of the validation."
+					},
+					"response": []
+				}
+			],
+			"description": "these endpoints is used for: register & login and validation."
+		},
+		{
+			"name": "Data Endpoints",
+			"item": [
+				{
+					"name": "Request on user \"data\"",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"shio703\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/space",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"space"
+							]
+						},
+						"description": "### Create User Space\n\nThis endpoint allows you to fetch user \"data\" by providing the username in the request body.\n\n**Request Body**\n\n- username (string, required): The username of the user for creating the space.\n    \n\n#### Response\n\n- Status: 401\n    \n- Content-Type: application/json\n    \n\nIn case of an unsuccessful request, the response will include a JSON object with a \"message\" key indicating the reason for the failure.\n\n#### Related Responses\n\nFor successful requests to other endpoints of this API, a 200 status code is returned with a JSON object containing a \"message\" key."
+					},
+					"response": []
+				},
+				{
+					"name": "Creating an empty folder in user's \"data\" dir",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"shio703\",\r\n    \"foldername\": \"myFolder\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/space/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"space",
+								"create"
+							]
+						},
+						"description": "### Update User Space\n\nThis endpoint allows the user to create a new space within their account.\n\n**Request Body**\n\n- `username` (string): The username of the user.\n    \n- `foldername` (string): The name of the folder to be created.\n    \n\n**Response**  \nThe response will be in JSON format with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"message\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```\n\n**Sample Response**\n\n``` json\n{\n    \"message\": \"Folder created successfully!\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "for deletion of an empty folder in \"data\" dir",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"shio703\",\r\n    \"foldername\": \"myFolder\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/space/file",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"space",
+								"file"
+							]
+						},
+						"description": "### Delete User Space File\n\nThis endpoint is used to delete a folder from the user's space \"data\".\n\n#### Request\n\n- Method: DELETE\n    \n- URL: `http://localhost:3000/api/v1/user/space/file`\n    \n- Headers:\n    \n    - Content-Type: application/json\n        \n- { \"username\": \"shio703\", \"foldername\": \"myFolder\" }\n    \n\n#### Response\n\nThe response for this request can be documented as a JSON schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"message\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload a file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/shioz/Desktop/test.txt"
+								},
+								{
+									"key": "username",
+									"value": "shio703",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "this is description of the file",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/space/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"space",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "these endpoints is used for: interacting with user's \"data\"."
+		}
+	]
+}
