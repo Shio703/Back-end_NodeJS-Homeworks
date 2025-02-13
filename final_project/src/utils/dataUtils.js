@@ -1,6 +1,42 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { spawn } = require("node:child_process");
+const multer = require("multer");
+
+// multer storage configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const storagePath = path.join(
+      __dirname,
+      "../",
+      `usersData/${"shio703"}/data`
+    );
+    if (!storagePath) {
+      return "error storage path not found!";
+    }
+    console.log("File Location:", storagePath.slice(54));
+    // username is undefined
+    console.log(req.body.username);
+    cb(null, storagePath);
+  },
+  filename: function (req, file, cb) {
+    const fileName = Date.now() + "-" + file.originalname;
+    cb(null, fileName);
+  },
+  metadata: function (req, file, cb) {
+    const customMetaData = {
+      customName: req.customName || null,
+      uploadedBy: req.body.username || "Nobody",
+      uploadDate: new Date(),
+      description: req.body.description,
+    };
+    // this is not even logging
+    console.log("uploaded by:", customMetaData.uploadedBy);
+    file.customMetaData = customMetaData;
+    cb(null, customMetaData);
+  },
+});
+const upload = multer({ storage: storage });
 
 // listData function for listing user's directory:
 const listData = (username) => {
@@ -109,8 +145,10 @@ const deleteFolder = (username, folderName) => {
     }
   });
 };
+
 module.exports = {
   listData,
   createFolder,
   deleteFolder,
+  upload,
 };
