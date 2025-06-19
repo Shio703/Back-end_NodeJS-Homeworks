@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../utils/userUtils");
-const { listData, createFolder, deleteFolder } = require("../utils/dataUtils");
+const {
+  listData,
+  createFolder,
+  deleteFolder,
+  upload,
+} = require("../utils/dataUtils");
 
 // Folder management endpoints:
 router.post("/user/space", verifyToken, (req, res) => {
@@ -38,6 +43,11 @@ router.delete("/user/space/file", verifyToken, (req, res) => {
         ? res.status(403).json(err)
         : res.status(500).json({ message: err });
     });
+});
+
+// for uploading files
+router.post("/user/space/upload", upload.any(), (req, res) => {
+  res.json({ message: `file stored successfully:) ${req.body.username}` });
 });
 
 module.exports = router;
