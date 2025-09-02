@@ -20,8 +20,8 @@ const dataRoutes = require("./routes/data");
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", dataRoutes);
 
-router.get("/", (req, res, next) => {
-  res.send("hello express");
+app.get("/", (req, res, next) => {
+  res.json({ message: "hello express" });
 });
 
 const port = process.env.PORT || 3000;
